@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Menu</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    
+    form {
+      width: 50%;
+      margin: 0 auto;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    input {
+      width: 100%;
+      padding: 5px;
+      margin-bottom: 5px;
+    }
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    li {
+      padding: 5px;
+      border-bottom: 1px solid #ccc;
+    }
+    img {
+      max-width: 100px;
+      max-height: 100px;
+      display: block;
+    }
+    img{justify-content: center ;text-align:center;
+      max-width: 100px;
+  max-height: 1009px;
+  display: block;
+  margin: 0 auto; 
+
+    }
+    h3 {
+   color: black;
+    margin-top: 0px;  
+     
+      font-size: 10px;
+      text-align: center;
+    }
+    div {
+      justify-content: center;
+      text-align: center;
+     font-size: 10px;
+    }
+    @media only screen and (max-width: 600px) {
+      /* CSS for phones */
+      img {
+        width: 100%; /* Set the width of the image to 100% for phones */
+      }
+    }
+
+    @media only screen and (min-width: 601px) {
+      /* CSS for laptops */
+      img {
+        width: 100%; /* Set the width of the image to 100% for laptops */
+      }
+    }
+  </style>
+</head>
+<body>
+  <a href="./Login.html"><img src="./images/logo.png"></a>
+  <h1 style="text-align: center; font-style: oblique;  font-family: 'Brush Script ', cursive; color:  rgb(170, 98, 15);  margin-top: 0px;margin-bottom: 0px;">FOOD MENU</h1>
+  
+  <HR>
+  <ul id="menu-items"></ul>
+  <script>
+    // Load menu items from local storage and display on user page
+    window.onload = function() {
+      const menuItems = JSON.parse(localStorage.getItem("menu-items")) || [];
+      const menuList = document.getElementById("menu-items");
+      menuItems.forEach(item => {
+        const newListItem = document.createElement("li");
+        newListItem.innerHTML = `
+          <img src="${item.image}"  >
+          <h1 style="color: rgb(170, 98, 15);justify-content: center; text-align: center; font-family: serif; text-decoration: double; text-shadow: black; font-size: 1.5rem; margin-bottom:0px">${item.type}</h1>
+          <h3>${item.details}</h3>
+          <div>${item.price}</div>`;
+        menuList.appendChild(newListItem);
+      });
+    };
+
+    // Save menu item
+    function saveItem() {
+      // Get form data
+      const type = document.getElementById("type").value;
+      const details = document.getElementById("details").value;
+      const price = document.getElementById("price").value;
+      const image = document.getElementById("image").files[0];
+
+      // Create new menu item object
+      const menuItem = {
+        type,
+        details,
+        price,
+        image: image ? URL.createObjectURL(image) : null // Convert image to URL
+      };
+
+      // Add menu item to local storage
+      const menuItems = JSON.parse(localStorage.getItem("menu-items")) || [];
+      menuItems.push(menuItem);
+      localStorage.setItem("menu-items", JSON.stringify(menuItems));
+
+      // Display menu item on user page
+      const menuList = document.getElementById("menu-items");
+      const newListItem = document.createElement("li");
+      newListItem.innerHTML = `
+        <img src="${menuItem.image}" alt="${type}">
+        <h1 style="color: brown;">${type}</h1>
+        <h3>${details}</h3>
+        <div>${price}</div>`;
+      menuList.appendChild(newListItem);
+    }
+  </script>
+</body>
+</html>

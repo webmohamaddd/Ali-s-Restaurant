@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Manager Menu</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+
+    }
+
+    h1 {
+      font-size: 1.5em;
+    }
+
+    form {
+      width: 50%;
+      margin: 0 auto;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    input, button {
+      width: calc(100% - 10px);
+      padding: 5px;
+      margin-bottom: 5px;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    li {
+      padding: 10px;
+      border-bottom: 1px solid #ccc;
+      display: flex;
+      align-items: center;
+    }
+
+    li img {
+      max-width: 100px;
+      max-height: 100px;
+      margin-right: 10px;
+    }
+
+    .item-details {
+      flex: 1;
+    }
+
+    .delete-button {
+  width: 40px; /* Adjust width as needed */
+  height: 40px; /* Adjust height as needed */
+  margin-left: auto;
+  /* Additional styling properties */
+  background-color: rgb(170, 98, 15); /* Coral color */
+  color:WHITE;
+  border: none;
+  margin-top: 10px;
+  border-radius: 59px;
+  cursor: pointer;
+  font-size: 10px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  
+}
+form {
+  width: 50%;
+  margin: 0 auto;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="file"],
+button {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  box-sizing: border-box; /* Ensures padding and border are included in the width */
+}
+
+input[type="file"] {
+  cursor: pointer; /* Show pointer cursor for file input */
+}
+
+button {
+  background-color:  rgb(170, 98, 15); /* Green */
+  color: WHITE;
+  border: none;
+  font-weight: bold;
+  border-radius: 100px;
+  cursor: pointer;
+}
+h1{color: rgb(170, 98, 15); font-family: serif; text-decoration:double; text-shadow: black;   font-size: 2px;/* Add underline to text */
+  text-shadow: 
+      -1px -1px 0  rgb(170, 98, 15),  
+       1px -1px 0   black,
+      -1px  1px 0 black,
+       1px  1px 0 black;font-size: 40px;}
+h2
+{color: rgb(170, 98, 15); font-family: serif; text-decoration:double; text-shadow: black;   font-size: 2px;/* Add underline to text */
+  text-shadow: 
+      -1px -1px 0   rgb(170, 98, 15),  
+       1px -1px 0   black,
+      -1px  1px 0 black,
+       1px  1px 0 black;font-size: 40px;}
+
+label 
+{color: rgb(170, 98, 15); font-family: serif; text-decoration:double; text-shadow: black;   font-size: 2px;/* Add underline to text */
+  text-shadow: 
+      -1px -1px 0 rgb(170, 98, 15),  
+       1px -1px 0   black,
+      -1px  1px 0 black,
+       1px  1px 0 black;font-size: 40px;}
+img{   max-width: 100px;
+      max-height : 300px;
+     text-align: end;
+     justify-content: end;
+      }
+      .header img {
+   /* Align the image vertically in the middle */
+  width: 100px; /* Adjust the width as needed */
+  height: 100px; /* Adjust the height as needed */
+}
+h4{color: black;
+display: inline;
+justify-content: end;
+text-align: end;
+}
+.header h1 {
+  display: inline-block; /* Display the h1 as inline-block */
+  color:rgb(148, 91, 91);
+  font-family: serif;
+  text-decoration:  underline; /* Add double underline to text */
+  text-shadow: -1px -1px 0  rgb(170, 98, 15), 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black; /* Apply text shadow */
+  font-size: 20px; /* Adjust font size as needed */
+  /* Adjust margin as needed */
+}
+h3{color:gray; font-family: serif; text-decoration:double; text-shadow: black;   font-size: 2px;/* Add underline to text */
+font-size: 20px;}
+  </style>
+</head>
+<body><div class="header">
+ <a href="./user.html"><img src="./images/Logo.png"></a> 
+  <h1>Add Menu Items:</h1>
+</div>
+  <form>
+    <label for="type">Type:</label>
+    <input type="text" id="type" required>
+    <br>
+    <label for="details">Details:</label>
+    <input type="text" id="details" required>
+    <br>
+    <label for="price">Price:</label>
+    <input type="text" id="price" required>
+    <br>
+    <label for="image">Image:</label>
+    <input type="file" id="image">
+    <br>
+    <button type="button" onclick="saveItem()">Save</button>
+  </form>
+  
+  <h2>Your Menu:</h2>
+  <ul id="manager-menu-items"></ul>
+
+  <script>
+    // Save menu item
+    function saveItem() {
+      // Get form data
+      const type = document.getElementById("type").value;
+      const details = document.getElementById("details").value;
+      const price = document.getElementById("price").value;
+      const image = document.getElementById("image").files[0];
+   
+      // Create new menu item object
+      const menuItem = {
+        type,
+        details,
+        price,
+        image: image ? URL.createObjectURL(image) : null // Convert image to URL
+        
+      };
+
+      // Add menu item to local storage
+      const menuItems = JSON.parse(localStorage.getItem("menu-items")) || [];
+      menuItems.push(menuItem);
+      localStorage.setItem("menu-items", JSON.stringify(menuItems));
+
+      // Display menu item on manager page
+      const managerMenuList = document.getElementById("manager-menu-items");
+      const newListItem = document.createElement("li");
+      newListItem.innerHTML = `
+        <img src="${menuItem.image}"">
+        <div class="item-details">
+          <h1> ${type}</h1>
+          <h3> ${details}</h3>
+          <h4>${price}</h4>
+        </div>
+        <button class="delete-button" onclick="deleteItem(this)">Delete</button>`;
+      managerMenuList.appendChild(newListItem);
+      
+    }
+    
+    // Delete menu item
+    function deleteItem(element) {
+      // Get the index of the menu item to delete
+      const index = Array.from(element.parentNode.parentNode.children).indexOf(element.parentNode);
+
+      // Remove the menu item from local storage
+      const menuItems = JSON.parse(localStorage.getItem("menu-items")) || [];
+      menuItems.splice(index, 1);
+      localStorage.setItem("menu-items", JSON.stringify(menuItems));
+
+      // Remove the menu item from the manager page
+      const managerMenuList = document.getElementById("manager-menu-items");
+      managerMenuList.removeChild(element.parentNode);
+    }
+
+    // Load menu items from local storage and display on user page
+    window.onload = function() {
+      const menuItems = JSON.parse(localStorage.getItem("menu-items")) || [];
+      const managerMenuList = document.getElementById("manager-menu-items");
+      menuItems.forEach(item => {
+        const newListItem = document.createElement("li");
+        newListItem.innerHTML = `
+          <img src="${item.image}" alt="${item.type}">
+          <div class="item-details">
+            <div> ${item.type}</div>
+            <div> ${item.details}</div>
+            <div>${item.price}</div>
+          </div>
+          <button class="delete-button" onclick="deleteItem(this)">Delete</button>`;
+        managerMenuList.appendChild(newListItem);
+      });
+    };
+  </script>
+</body>
+</html>
